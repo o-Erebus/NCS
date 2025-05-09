@@ -1,65 +1,52 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-// Function to repeat the keyword to match plaintext length
-string generateKey(string plaintext, string key) {
-    int keyLength = key.size();
-    int textLength = plaintext.size();
-    string newKey = key;
 
-    for (int i = 0; i < textLength - keyLength; i++) {
-        newKey += key[i % keyLength];
-    }
-
-    return newKey;
-}
-
-// Function to encrypt the plaintext using Vigenère Cipher
-string encrypt(string plaintext, string key) {
+string encryptVigenere(string plaintext, string key) {
     string ciphertext = "";
+    int keyLen = key.length();
 
-    for (int i = 0; i < plaintext.size(); i++) {
-        char p = plaintext[i];
-        char k = key[i];
+    for (int i = 0; i < plaintext.length(); i++) {
+        int p = plaintext[i] - 'A';
+        int k = key[i % keyLen] - 'A';
 
-        // Convert to 0-25 range and encrypt
-        char c = ((p - 'A') + (k - 'A')) % 26 + 'A';
-        ciphertext += c;
+        int c = (p + k) % 26;
+        ciphertext += char(c + 'A');
     }
 
     return ciphertext;
 }
 
-// Function to decrypt the ciphertext
-string decrypt(string ciphertext, string key) {
-    string originalText = "";
+string decryptVigenere(string ciphertext, string key) {
+    string plaintext = "";
+    int keyLen = key.length();
 
-    for (int i = 0; i < ciphertext.size(); i++) {
-        char c = ciphertext[i];
-        char k = key[i];
+    for (int i = 0; i < ciphertext.length(); i++) {
+        int c = ciphertext[i] - 'A';
+        int k = key[i % keyLen] - 'A';
 
-        // Decryption logic
-        char p = ((c - 'A') - (k - 'A') + 26) % 26 + 'A';
-        originalText += p;
+        int p = (c - k + 26) % 26; // +26 to avoid negative results
+        plaintext += char(p + 'A');
     }
 
-    return originalText;
+    return plaintext;
 }
 
 int main() {
-    string plaintext = "HELLOVIGENERE";
-    string keyword = "KEY";
+    string plaintext, key;
 
-    // Generate repeated key
-    string key = generateKey(plaintext, keyword);
+    cout << "Enter plaintext (uppercase A-Z only): ";
+    cin >> plaintext;
 
-    // Encrypt
-    string ciphertext = encrypt(plaintext, key);
-    cout << "Ciphertext: " << ciphertext << endl;
+    cout << "Enter key (uppercase A-Z only): ";
+    cin >> key;
 
-    // Decrypt
-    string decryptedText = decrypt(ciphertext, key);
-    cout << "Decrypted Plaintext: " << decryptedText << endl;
+    string encrypted = encryptVigenere(plaintext, key);
+    string decrypted = decryptVigenere(encrypted, key);
+
+    cout << "\nEncrypted ciphertext: " << encrypted << endl;
+    cout << "Decrypted plaintext:  " << decrypted << endl;
 
     return 0;
 }
