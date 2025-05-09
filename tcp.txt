@@ -1,0 +1,17 @@
+sudo tcpdump -i eth0 -w capture_all_traffic.pcap
+
+sudo tcpdump -r capture_all_traffic.pcap
+
+sudo tcpdump -i eth0 port 80 -w capture_http_traffic.pcap
+
+sudo tcpdump -r capture_http_traffic.pcap
+
+sudo tcpdump -i eth0 tcp -w capture_tcp_handshake.pcap
+
+sudo tcpdump -r capture_tcp_handshake.pcap
+
+
+
+tcp.flags.syn == 1 and tcp.flags.ack == 0  // SYN
+tcp.flags.syn == 1 and tcp.flags.ack == 1  // SYN-ACK
+tcp.flags.syn == 0 and tcp.flags.ack == 1  // ACK

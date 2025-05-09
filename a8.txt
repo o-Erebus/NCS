@@ -1,0 +1,5 @@
+ipconfig /all
+tracert www.google.com
+nslookup www.google.com
+netstat -an
+netstat -an | findstr "80"

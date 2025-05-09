@@ -1,0 +1,5 @@
+nmap -sn google.com
+nmap google.com
+nmap -sV google.com
+sudo nmap -O google.com
+sudo nmap -A google.com

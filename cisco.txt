@@ -1,0 +1,60 @@
+enable
+configure terminal
+interface fastEthernet 0/0
+ip address 10.0.0.1 255.255.255.0
+no shutdown
+exit
+line console 0
+password cisco123
+login
+exit
+line vty 0 4
+password telnet123
+login
+exit
+enable secret secureadmin
+banner motd #Unauthorized access is prohibited!#
+end
+write memory
+
+
+
+enable
+configure terminal
+interface vlan 1
+ip address 10.0.0.2 255.255.255.0
+no shutdown
+exit
+line console 0
+password switch123
+login
+exit
+line vty 0 4
+password remotesw
+login
+exit
+enable secret adminsw
+banner motd #Unauthorized access is prohibited!#
+end
+write memory
+
+
+
+show running-config
+
+
+
+Go to PC1 -> Desktop -> IP Configuration
+
+IP Address: 10.0.0.3
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 10.0.0.1 (Router’s IP)
+
+
+
+telnet 10.0.0.1  // For Router
+telnet 10.0.0.2  // For Switch
+
+
