@@ -2,34 +2,26 @@
 #include <string>
 using namespace std;
 
-// Function to decrypt Vigenère Cipher
-string vigenereDecrypt(const string& ciphertext, const string& keyword) {
+string decryptVigenere(string ciphertext, string key) {
     string plaintext = "";
-    int keyLength = keyword.length();
+    int keyLen = key.length();
 
-    for (size_t i = 0; i < ciphertext.length(); ++i) {
-        // Convert characters to 0–25 range
-        char c = ciphertext[i];
-        char k = keyword[i % keyLength];
-
-        // Decryption formula: (C - K + 26) % 26
-        char decryptedChar = ((c - 'A') - (k - 'A') + 26) % 26 + 'A';
-
-        plaintext += decryptedChar;
+    for (int i = 0; i < ciphertext.length(); i++) {
+        int c = ciphertext[i] - 'A';
+        int k = key[i % keyLen] - 'A';
+        int p = (c - k + 26) % 26;
+        plaintext += char(p + 'A');
     }
 
     return plaintext;
 }
 
 int main() {
-    string ciphertext = "LXFOPVEFRNHR";
-    string keyword = "LEMON";
-
-    string decrypted = vigenereDecrypt(ciphertext, keyword);
-
-    cout << "Ciphertext: " << ciphertext << endl;
-    cout << "Keyword: " << keyword << endl;
-    cout << "Decrypted Plaintext: " << decrypted << endl;
-
+    string ciphertext, key;
+    cout << "Enter ciphertext (uppercase A-Z only): ";
+    cin >> ciphertext;
+    cout << "Enter key (uppercase A-Z only): ";
+    cin >> key;
+    cout << "Decrypted plaintext: " << decryptVigenere(ciphertext, key) << endl;
     return 0;
 }
